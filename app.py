@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request, jsonify
-from webscraper import scrape, scrapeAll, scrapeById
+from webscraper import scrape, scrapeAll, scrapeById, FOOD_DICT
 
 app = Flask(__name__)
 
