@@ -41,7 +41,10 @@ export default class App extends React.Component {
     } else {
       console.log('https://brutrition.herokuapp.com/foods?id=' + this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase()))[0].replace(new RegExp(' ', 'g'), '_').toUpperCase())
       fetch('https://brutrition.herokuapp.com/foods?id=' + this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase()))[0].replace(new RegExp(' ', 'g'), '_').toUpperCase())
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        response.json()
+      })
       .then((responseJSON) => {
         this.setState({
           dataSource: responseJSON.Data[0],
