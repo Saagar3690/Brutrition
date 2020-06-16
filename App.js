@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button, Keyboard } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import Constants from 'expo-constants';
 
@@ -39,12 +39,8 @@ export default class App extends React.Component {
       })
       return
     } else {
-      console.log('https://brutrition.herokuapp.com/foods?id=' + this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase()))[0].replace(new RegExp(' ', 'g'), '_').toUpperCase())
       fetch('https://brutrition.herokuapp.com/foods?id=' + this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase()))[0].replace(new RegExp(' ', 'g'), '_').toUpperCase())
-      .then((response) => {
-        console.log(response)
-        response.json()
-      })
+      .then((response) => response.json())
       .then((responseJSON) => {
         this.setState({
           dataSource: responseJSON.Data[0],
@@ -69,7 +65,7 @@ export default class App extends React.Component {
               placeholder="Enter a food item here"
               autoCapitalize='none'
               autoCorrect={false}
-              data={this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase())).length > 0 ? this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase())) : ['No matches']}
+              data={this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase())).length > 0 ? this.state.foods.filter(food => food.toLowerCase().includes(this.state.query.toLowerCase())).slice(0, 5) : ['No matches']}
               defaultValue={this.state.query}
               onChangeText={text => this.setState({query:text})}
               renderItem={({item, i}) => (
@@ -79,36 +75,33 @@ export default class App extends React.Component {
               )}
             />
           </View>
-          <View style={{flex: 1}}><Button title="Enter" onPress={() => this.getData()}/></View>
+          <View style={{flex: 1}}><Button title="Enter" onPress={() => {
+              Keyboard.dismiss()
+              this.getData()
+            }}/></View>
         </View>
         <View style={styles.descriptionContainer}>
           {this.state.contentToDisplay ? (
-            <View>
-              <Text>Dish: {this.state.dataSource.foodName}</Text>
-              <Text>{this.state.dataSource.description}</Text>
-              <Text>Product Info: {this.state.dataSource.prodWebCodes.join(', ')}</Text>
-              <Text>Serving Size: {this.state.dataSource.servingSize}</Text>
-              <Text>Calories: {this.state.dataSource.calories}</Text>
-              <Text>Fat Calories: {this.state.dataSource.fatCalories}</Text>
-              <Text>Total Fat: {this.state.dataSource.totalFat.val}</Text>
-              <Text>{this.state.dataSource.totalFat.dailyVal}</Text>
-              <Text>Saturated Fat: {this.state.dataSource.saturatedFat.val}</Text>
-              <Text>{this.state.dataSource.saturatedFat.dailyVal}</Text>
-              <Text>Trans Fat: {this.state.dataSource.transFat}</Text>
-              <Text>Cholesterol: {this.state.dataSource.cholesterol.val}</Text>
-              <Text>{this.state.dataSource.cholesterol.dailyVal}</Text>
-              <Text>Sodium: {this.state.dataSource.sodium.val}</Text>
-              <Text>{this.state.dataSource.sodium.dailyVal}</Text>
-              <Text>Total Carbohydrate: {this.state.dataSource.totalCarbohydrate.val}</Text>
-              <Text>{this.state.dataSource.totalCarbohydrate.dailyVal}</Text>
-              <Text>Dietary Fiber: {this.state.dataSource.dietaryFiber.val}</Text>
-              <Text>{this.state.dataSource.dietaryFiber.dailyVal}</Text>
-              <Text>Sugars: {this.state.dataSource.sugars}</Text>
-              <Text>Protein: {this.state.dataSource.protein}</Text>
-              <Text>Vitamin A: {this.state.dataSource.vitaminA}</Text>
-              <Text>Vitamin C: {this.state.dataSource.vitaminC}</Text>
-              <Text>Calcium: {this.state.dataSource.calcium}</Text>
-              <Text>Iron: {this.state.dataSource.iron}</Text>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>{this.state.dataSource.foodName}</Text>
+              <Text style={{fontStyle: 'italic', textAlign: 'center'}}>{this.state.dataSource.description}</Text>
+              <Text style={{fontSize: 10, textAlign: 'center'}}>*{this.state.dataSource.prodWebCodes.join(', ')}</Text>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Serving Size: </Text><Text>{this.state.dataSource.servingSize}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calories: </Text><Text>{this.state.dataSource.calories}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Fat Calories: </Text><Text>{this.state.dataSource.fatCalories}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Total Fat: </Text><Text>{this.state.dataSource.totalFat.val} ({this.state.dataSource.totalFat.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Saturated Fat: </Text><Text>{this.state.dataSource.saturatedFat.val} ({this.state.dataSource.saturatedFat.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Trans Fat: </Text><Text>{this.state.dataSource.transFat}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Cholesterol: </Text><Text>{this.state.dataSource.cholesterol.val} ({this.state.dataSource.cholesterol.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Sodium: </Text><Text>{this.state.dataSource.sodium.val} ({this.state.dataSource.sodium.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Total Carbohydrate: </Text><Text>{this.state.dataSource.totalCarbohydrate.val} ({this.state.dataSource.totalCarbohydrate.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Dietary Fiber: </Text><Text>{this.state.dataSource.dietaryFiber.val} ({this.state.dataSource.dietaryFiber.dailyVal})</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Sugars: </Text><Text>{this.state.dataSource.sugars}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Protein: </Text><Text>{this.state.dataSource.protein}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Vitamin A: </Text><Text>{this.state.dataSource.vitaminA}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Vitamin C: </Text><Text>{this.state.dataSource.vitaminC}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calcium: </Text><Text>{this.state.dataSource.calcium}</Text></View>
+              <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Iron: </Text><Text>{this.state.dataSource.iron}</Text></View>
             </View>
           ) : (
             <Text>{this.state.content}</Text>
@@ -140,6 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 2
+    flex: 4,
+    padding: 5
   },
 });
