@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Button, Keyboard } from 'reac
 import Autocomplete from 'react-native-autocomplete-input';
 import Constants from 'expo-constants';
 
-import foodList from './Constants/foodList'
+import getFoodList from './Constants/foodList'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      foods: Object.keys(foodList).map((item) => {
+      foods: Object.keys(getFoodList()).map((item) => {
         let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
         let tmpString2 = tmpString.split(' ').map((word => {
           return word.charAt(0).toUpperCase() + word.slice(1)

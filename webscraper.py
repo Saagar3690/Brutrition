@@ -121,6 +121,7 @@ def cleanUpFoodName(foodName):
   foodName = foodName.replace('&', 'and')
   foodName = foodName.replace('w/', 'with')
   foodName = foodName.replace(' ', '_')
+  foodName = foodName.replace('\'', '')
 
   return foodName.upper()
 

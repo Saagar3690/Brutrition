@@ -11,7 +11,7 @@ FOOD_DICT = {}
 def home():
   global FOOD_DICT
   FOOD_DICT = scrapeForFoods()
-  return "<h1>Brutrition Web Scraped Nutrition Data</h1>"
+  return jsonify(Data=FOOD_DICT)
 
 @app.route('/foods/all', methods=['GET'])
 def all():
