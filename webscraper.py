@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-FOOD_DICT = {}
-
 def scrape(url):
   dataToReturn = []
 
@@ -95,7 +93,7 @@ def scrape(url):
   return dataToReturn
 
 def scrapeForFoods():
-  FOOD_DICT.clear()
+  FOOD_DICT = {}
 
   src = requests.get('http://menu.dining.ucla.edu/Menus').content
   soup = BeautifulSoup(src, "lxml")
@@ -107,6 +105,8 @@ def scrapeForFoods():
     link = menuItem.span.a['href']
 
     FOOD_DICT[cleanUpFoodName(foodName)] = link
+
+  return FOOD_DICT
 
 def cleanUpFoodName(foodName):
   foodName.lower()
@@ -135,12 +135,12 @@ def getCalories(caloriesContainer):
 
   return calories, fatCalories
 
-def scrapeAll():
+def scrapeAll(FOOD_DICT):
   data = [scrape(item) for item in FOOD_DICT.values()]
 
   return data
 
-def scrapeById(id):
+def scrapeById(FOOD_DICT, id):
   return scrape(FOOD_DICT[id])
 
 #scrapeAll()

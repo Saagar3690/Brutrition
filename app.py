@@ -1,25 +1,27 @@
 from flask import Flask
 from flask import request, jsonify
-from webscraper import scrape, scrapeAll, scrapeById, scrapeForFoods, FOOD_DICT
+from webscraper import scrape, scrapeAll, scrapeById, scrapeForFoods
 import os
 
 app = Flask(__name__)
 
+FOOD_DICT = {}
+
 @app.route('/', methods=['GET'])
 def home():
-  scrapeForFoods()
+  FOOD_DICT = scrapeForFoods()
   return "<h1>Brutrition Web Scraped Nutrition Data</h1>"
 
 @app.route('/foods/all', methods=['GET'])
 def all():
-  return jsonify(Data=scrapeAll())
+  return jsonify(Data=scrapeAll(FOOD_DICT))
 
 @app.route('/foods', methods=['GET'])
 def id():
   if 'id' in request.args:
     id=request.args['id']
     if(FOOD_DICT.get(id) != None):
-      return jsonify(Data=scrapeById(id))
+      return jsonify(Data=scrapeById(FOOD_DICT, id))
     else:
       return "<h1>Food Item not found</h1>"
   else:
