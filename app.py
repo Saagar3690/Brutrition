@@ -9,7 +9,8 @@ FOOD_DICT = {}
 
 @app.route('/', methods=['GET'])
 def home():
-  global FOOD_DICT = scrapeForFoods()
+  global FOOD_DICT
+  FOOD_DICT = scrapeForFoods()
   return "<h1>Brutrition Web Scraped Nutrition Data</h1>"
 
 @app.route('/foods/all', methods=['GET'])
