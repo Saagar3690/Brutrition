@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 def scrape(url):
   dataToReturn = []
-  description, allergens = '', ''
+  description, allergens = 'No Description', ''
 
   src = requests.get(url).content
   soup = BeautifulSoup(src, "lxml")

@@ -3,25 +3,33 @@ import { StyleSheet, Text, View, TouchableOpacity, Button, Keyboard } from 'reac
 import Autocomplete from 'react-native-autocomplete-input';
 import Constants from 'expo-constants';
 
-import getFoodList from './Constants/foodList'
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      foods: Object.keys(getFoodList()).map((item) => {
-        let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
-        let tmpString2 = tmpString.split(' ').map((word => {
-          return word.charAt(0).toUpperCase() + word.slice(1)
-        })).join(' ')
-
-        return tmpString2
-      }),
+      foods: [],
       query: '',
       contentToDisplay: false,
       content: 'Nothing to display',
       dataSource: ''
     }
+  }
+
+  componentDidMount() {
+    fetch('https://brutrition.herokuapp.com')
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      this.setState({
+        foods: Object.keys(responseJSON.Data).map((item) => {
+          let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
+          let tmpString2 = tmpString.split(' ').map((word => {
+            return word.charAt(0).toUpperCase() + word.slice(1)
+          })).join(' ')
+
+          return tmpString2
+        })
+      })
+    })
   }
 
   getData() {
