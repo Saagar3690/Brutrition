@@ -84,7 +84,7 @@ export default class App extends React.Component {
           {this.state.contentToDisplay ? (
             <View style={{flex: 1}}>
               <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>{this.state.dataSource.foodName}</Text>
-              <Text style={{fontStyle: 'italic', textAlign: 'center'}}>{this.state.dataSource.description}</Text>
+              <Text style={{fontStyle: 'italic', textAlign: 'center'}}>{this.state.dataSource.description !== this.state.dataSource.prodWebCodes[0] ? this.state.dataSource.description : 'No Description'}</Text>
               <Text style={{fontSize: 10, textAlign: 'center'}}>*{this.state.dataSource.prodWebCodes.join(', ')}</Text>
               <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Serving Size: </Text><Text>{this.state.dataSource.servingSize}</Text></View>
               <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calories: </Text><Text>{this.state.dataSource.calories}</Text></View>

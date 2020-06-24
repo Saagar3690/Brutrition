@@ -1,12 +1,13 @@
 from flask import Flask
 from flask import request, jsonify
-from webscraper import scrape, scrapeAll, scrapeById, FOOD_DICT
+from webscraper import scrape, scrapeAll, scrapeById, scrapeForFoods, FOOD_DICT
 import os
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
+  scrapeForFoods()
   return "<h1>Brutrition Web Scraped Nutrition Data</h1>"
 
 @app.route('/foods/all', methods=['GET'])
