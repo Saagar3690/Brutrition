@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 def scrape(url):
   dataToReturn = []
+  description, allergens = '', ''
 
   src = requests.get(url).content
   soup = BeautifulSoup(src, "lxml")
@@ -10,7 +11,10 @@ def scrape(url):
   recipeContainer = soup.find('div', {'class': 'recipecontainer'})
 
   foodName = recipeContainer.h2.text.strip()
-  description = recipeContainer.div.div.text.strip()
+  try:
+    description = recipeContainer.div.div.text.strip()
+  except:
+    pass
 
   prodWebCodeContainer = recipeContainer.div.findAll('div', {'class': 'prodwebcode'})
   prodWebCodes = [item.text.strip() for item in prodWebCodeContainer]
@@ -64,7 +68,10 @@ def scrape(url):
   ingredientsAllergensItems = recipeContainer.find('div', {'class': 'ingred_allergen'}).findAll('p')
 
   ingredients = ingredientsAllergensItems[0].text.strip('INGREDIENTS:').strip()
-  allergens = ingredientsAllergensItems[1].text.strip('ALLERGENS*:').strip()
+  try:
+    allergens = ingredientsAllergensItems[1].text.strip('ALLERGENS*:').strip()
+  except:
+    pass
 
   dataToReturn.append({
     'foodName': foodName,
