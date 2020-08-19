@@ -5,17 +5,18 @@ import os
 
 app = Flask(__name__)
 
+MENUS = {}
 FOOD_DICT = {}
 
 @app.route('/', methods=['GET'])
 def home():
   global FOOD_DICT
-  FOOD_DICT = scrapeForFoods()
-  return jsonify(Data=FOOD_DICT)
+  MENUS, FOOD_DICT = scrapeForFoods()
+  return jsonify(Data=MENUS)
 
 @app.route('/foods/all', methods=['GET'])
 def all():
-  return jsonify(Data=scrapeAll(FOOD_DICT))
+  return jsonify(Data=FOOD_DICT)
 
 @app.route('/foods', methods=['GET'])
 def id():
