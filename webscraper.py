@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import unidecode
+import unicodedata
 
 def scrape(url):
   dataToReturn = []
@@ -158,8 +160,6 @@ def scrapeForFoods():
       else:
         DINING_HALLS[diningHallName] = [DINING_HALLS[diningHallName], MENU_SECTIONS]
 
-  print(len(FOOD_DICT))
-
   return DINING_HALLS, FOOD_DICT
 
 def cleanUpFoodName(foodName):
@@ -170,6 +170,10 @@ def cleanUpFoodName(foodName):
   foodName = foodName.replace(' ', '_')
   foodName = foodName.replace('\'', '')
   foodName = foodName.replace('-', '_')
+
+  foodName = foodName.replace('\u00ae', '')
+  foodName = foodName.replace('\u00cd', '')
+  foodName = foodName.replace('\u00c7', '')
 
   return foodName.upper()
 
