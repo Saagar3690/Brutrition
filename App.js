@@ -48,8 +48,8 @@ export default class App extends React.Component {
             inactiveTintColor: Colors.secondary,
           }}
         >
-          <Tab.Screen name="Home" children={() => <Home title='Home'/>} />
           <Tab.Screen name="Profile" children={() => <Profile title='Profile'/>} />
+          <Tab.Screen name="Home" children={() => <Home title='Home'/>} />
           <Tab.Screen name="Add Meal" children={() => <AddMeal title='Add Meal'/>} />
           <Tab.Screen name="Diary" children={() => <Diary title='Diary'/>} />
           <Tab.Screen name="Settings" children={() => <Settings title='Settings'/>} />

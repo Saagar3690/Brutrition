@@ -24,11 +24,13 @@ render() {
         {this.state.meals.map(meal => <MealSummary data={meal} />)}
       </View>
       <Text style={styles.titleText}>My Friends</Text>
+      {/*
       <TextInput
         style={{ height: 40, borderColor: 'gray', margin: 10, padding: 10, backgroundColor: 'lightgray', color: 'gray', borderRadius: 6 }}
         onChangeText={text => onChangeText(text)}
         value={'Share with your friends...'}
         />
+      */}
     </View>
   )
 }
