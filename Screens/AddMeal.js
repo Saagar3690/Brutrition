@@ -5,16 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import TopBar from '../Components/TopBar'
 import Nutrition from '../Components/Nutrition'
 
+import {connect} from 'react-redux'
+
 const AddMealStack = createStackNavigator()
 
-export default class AddMeal extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      title: this.props.title
-    }
-  }
-
+class AddMeal extends React.Component {
   componentDidMount = () => {
     this.render()
   }
@@ -30,74 +25,51 @@ export default class AddMeal extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    menus: state.menus,
+    diningHalls: state.diningHalls,
+    foods: state.foods,
+    value: state.value,
+    dataSource: state.dataSource,
+    content: state.content
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+      fetchMenu: () => dispatch({ type: 'FETCH_MENU'}),
+      fetchDiningHalls: () => dispatch({ type: 'FETCH_DINING_HALLS'}),
+      fetchFoods: () => dispatch({ type: 'FETCH_FOODS'}),
+      fetchFoodItem: () => dispatch({ type: 'FETCH_FOOD_ITEM'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddMeal)
+
 class DiningHalls extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      navigation: props.navigation,
-      menus: {},
-      diningHalls: []
+      navigation: props.navigation
     }
   }
 
   async componentDidMount() {
-    await fetch('https://brutrition.herokuapp.com')
-    .then((response) => response.json())
-    .then((responseJSON) => {
-      this.setState({
-        menus: responseJSON.Data
-      })
-    })
-
-    await fetch('https://brutrition.herokuapp.com/foods/all')
-    .then((response) => response.json())
-    .then((responseJSON) => {
-      this.setState({
-        foods: Object.keys(responseJSON.Data).map((item) => {
-          let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
-          let tmpString2 = tmpString.split(' ').map((word => {
-            return word.charAt(0).toUpperCase() + word.slice(1)
-          })).join(' ')
-
-          return tmpString2
-        })
-      })
-    })
-
-    this.processMenus()
+    await this.props.fetchDiningHalls()
     this.render()
-  }
-
-  processMenus() {
-    var diningHallsLoc = []
-    var menuSections = []
-    for (var diningHall in this.state.menus) {
-      diningHallsLoc.push(diningHall)
-      var diningHallArray = this.state.menus[diningHall]
-      for (var i = 0; i < diningHallArray.length; i++) {
-        for (var menuSection in diningHallArray[i]) {
-          if (!menuSections.includes(menuSection)) {
-            menuSections.push(menuSection)
-          }
-        }
-      }
-    }
-
-    this.setState({
-      diningHalls: diningHallsLoc
-    })
   }
 
   render() {
     var items = [];
-    for(let i = 0; i < this.state.diningHalls.length; i++) {
+    for(let i = 0; i < this.props.diningHalls.length; i++) {
       items.push(
         <TouchableWithoutFeedback key={i} onPress={() => this.state.navigation.navigate('Dining Hall Menu', {
-          foods: this.state.foods
+          foods: this.props.foods
         })}>
           <View style={{flexDirection: 'column', paddingBottom: 40, justifyContent: 'center'}}>
             <Image source={require('../Images/Food.jpg')} style={{borderRadius: 40, borderWidth: 2, width: 75, height: 75}}/>
-            <Text style={{paddingLeft: 12, paddingTop: 5, fontFamily: 'Times New Roman'}}>{this.state.diningHalls[i]}</Text>
+            <Text style={{paddingLeft: 12, paddingTop: 5, fontFamily: 'Times New Roman'}}>{this.props.diningHalls[i]}</Text>
           </View>
         </TouchableWithoutFeedback>
       )
@@ -119,43 +91,30 @@ class DiningHalls extends React.Component {
   }
 }
 
+connect(mapStateToProps, mapDispatchToProps)(DiningHalls)
+
 class DiningHallMenu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       navigation: props.navigation,
-      foods: [],
-      value: 0
     }
   }
 
   async componentDidMount() {
-    await fetch('https://brutrition.herokuapp.com/foods/all')
-    .then((response) => response.json())
-    .then((responseJSON) => {
-      this.setState({
-        foods: Object.keys(responseJSON.Data).map((item) => {
-          let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
-          let tmpString2 = tmpString.split(' ').map((word => {
-            return word.charAt(0).toUpperCase() + word.slice(1)
-          })).join(' ')
-
-          return tmpString2
-        })
-      })
-    })
+    await this.props.fetchFoods()
     this.render()
   }
 
   render() {
     var foodItems = [];
-    for(let i = 0; i < this.state.foods.length; i++) {
+    for(let i = 0; i < this.props.foods.length; i++) {
       foodItems.push(
         <View key={i} style={{flexDirection: 'row', paddingBottom: 40}}>
           <Image source={require('../Images/Food.jpg')} style={{borderRadius: 20, borderWidth: 2, width: 30, height: 30}}/>
-          <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, fontFamily: 'Times New Roman'}}>{this.state.foods[i]}</Text>
+          <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, fontFamily: 'Times New Roman'}}>{this.props.foods[i]}</Text>
           <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-            <TextInput defaultValue='0' value={this.state.value.toString()} onChangeText={text => this.setState({value: text})}></TextInput>
+            <TextInput defaultValue='0' value={this.props.value.toString()} onChangeText={text => this.props.setValue(text)}></TextInput>
           </View>
         </View>
       )
@@ -176,28 +135,18 @@ class DiningHallMenu extends React.Component {
   }
 }
 
+connect(mapStateToProps, mapDispatchToProps)(DiningHallMenu)
+
 class NutritionInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      navigate: props.navigation,
-      dataSource: [],
-      contentToDisplay: false
+      navigate: props.navigation
     }
   }
 
   async componentDidMount() {
-    await fetch('https://brutrition.herokuapp.com/foods?id=KETCHUP')
-    .then((response) => response.json())
-    .then((responseJSON) => {
-      this.setState({
-        dataSource: responseJSON.Data[0],
-        contentToDisplay: true
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+    await this.props.fetchFoodItem()
     this.render()
   }
 
@@ -209,16 +158,18 @@ class NutritionInfo extends React.Component {
           <Text style={{fontSize: 25}}>Nutritional Info</Text>
         </View>
         <View style={styles.descriptionContainer}>
-          {this.state.contentToDisplay ? (
-            <Nutrition dataSource={this.state.dataSource} />
+          {this.props.contentToDisplay ? (
+            <Nutrition dataSource={this.props.dataSource} />
           ) : (
-            <Text>{this.state.content}</Text>
+            <Text>{this.props.content}</Text>
           )}
         </View>
       </View>
     )
   }
 }
+
+connect(mapStateToProps, mapDispatchToProps)(NutritionInfo)
 
 const styles = StyleSheet.create({
   descriptionContainer: {

@@ -1,60 +1,90 @@
 import * as React from 'react'
-import { Text, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import Home from './Screens/Home'
-import Profile from './Screens/Profile'
-import AddMeal from './Screens/AddMeal'
-import Diary from './Screens/Diary'
-import Settings from './Screens/Settings'
+import Brutrition from './src/Brutrition'
 
-import Colors from './Constants/Colors'
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
 
+const initialState = {
+  menus: {},
+  diningHalls: [],
+  foods: [],
+  value: 0,
+  dataSource: [],
+  contentToDisplay: false,
+  content: ''
+}
 
-const Tab = createBottomTabNavigator()
+const reducer = (state = initialState, action) => {
+  switch(action.type)
+  {
+    case 'FETCH_MENU':
+      fetch('https://brutrition.herokuapp.com')
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        return {
+          menus: responseJSON.Data
+        }
+      })
+    case 'FETCH_DINING_HALLS':
+      var diningHallsLoc = []
+      var menuSections = []
+      for (var diningHall in state.menus) {
+        diningHallsLoc.push(diningHall)
+        var diningHallArray = state.menus[diningHall]
+        for (var i = 0; i < diningHallArray.length; i++) {
+          for (var menuSection in diningHallArray[i]) {
+            if (!menuSections.includes(menuSection)) {
+              menuSections.push(menuSection)
+            }
+          }
+        }
+      }
+
+      return{
+        diningHalls: diningHallsLoc
+      }
+    case 'FETCH_FOODS':
+      fetch('https://brutrition.herokuapp.com/foods/all')
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        return {
+          foods: Object.keys(responseJSON.Data).map((item) => {
+            let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
+            let tmpString2 = tmpString.split(' ').map((word => {
+              return word.charAt(0).toUpperCase() + word.slice(1)
+            })).join(' ')
+
+            return tmpString2
+          })
+        }
+      })
+    case 'FETCH_FOOD_ITEM':
+      fetch('https://brutrition.herokuapp.com/foods?id=KETCHUP')
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        return {
+          dataSource: responseJSON.Data[0],
+          contentToDisplay: true
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+  }
+  return state
+}
+
+const store = createStore(reducer)
+
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName;
-
-              if (route.name === 'Home') {
-                iconName = 'ios-home';
-              } else if (route.name === 'Profile') {
-                iconName = 'ios-person';
-              } else if (route.name === 'Add Meal') {
-                iconName = 'ios-add-circle';
-              } else if (route.name === 'Diary') {
-                iconName = 'ios-book';
-              } else if (route.name === 'Settings') {
-                iconName = 'ios-settings';
-              }
-
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: Colors.primary,
-            inactiveTintColor: Colors.secondary,
-          }}
-        >
-          <Tab.Screen name="Profile" children={() => <Profile title='Profile'/>} />
-          <Tab.Screen name="Home" children={() => <Home title='Home'/>} />
-          <Tab.Screen name="Add Meal" children={() => <AddMeal title='Add Meal'/>} />
-          <Tab.Screen name="Diary" children={() => <Diary title='Diary'/>} />
-          <Tab.Screen name="Settings" children={() => <Settings title='Settings'/>} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <Brutrition />
+      </Provider>
     );
   }
 }
