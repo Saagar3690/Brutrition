@@ -1,33 +1,50 @@
 import * as React from 'react'
 import { Text, View, Button, Image, TouchableWithoutFeedback, ScrollView, TextInput, StyleSheet } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
 
 import TopBar from '../Components/TopBar'
 import Nutrition from '../Components/Nutrition'
 
-import DiningHalls from './DiningHalls'
-import DiningHallMenu from './DiningHallMenu'
-import NutritionInfo from './NutritionInfo'
-
 import {connect} from 'react-redux'
 
-const AddMealStack = createStackNavigator()
+class NutritionInfo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      navigate: props.navigation
+    }
+  }
 
-class AddMeal extends React.Component {
-  componentDidMount = () => {
+  async componentDidMount() {
+    await this.props.fetchFoodItem()
     this.render()
   }
 
   render() {
     return (
-      <AddMealStack.Navigator screenOptions={{headerShown: false}}>
-        <AddMealStack.Screen name='Dining Halls' component={DiningHalls} />
-        <AddMealStack.Screen name='Dining Hall Menu' component={DiningHallMenu} />
-        <AddMealStack.Screen name='Nutrition Info' component={NutritionInfo} />
-      </AddMealStack.Navigator>
+      <View>
+        <TopBar/>
+        <View style={{flexDirection: 'row', justifyContent: 'center', padding: 20}}>
+          <Text style={{fontSize: 25}}>Nutritional Info</Text>
+        </View>
+        <View style={styles.descriptionContainer}>
+          {this.props.contentToDisplay ? (
+            <Nutrition dataSource={this.props.dataSource} />
+          ) : (
+            <Text>{this.props.content}</Text>
+          )}
+        </View>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  descriptionContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5
+  },
+});
 
 function mapStateToProps(state) {
   return {
@@ -52,4 +69,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddMeal)
+export default connect(mapStateToProps, mapDispatchToProps)(NutritionInfo)

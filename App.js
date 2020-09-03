@@ -21,51 +21,28 @@ const reducer = (state = initialState, action) => {
   {
     case 'FETCH_MENU':
       return {
+        ...state,
         menus: action.payload,
-        diningHalls: state.diningHalls,
-        foods: state.foods,
-        value: state.value,
-        dataSource: state.dataSource,
-        contentToDisplay: state.contentToDisplay,
-        content: state.content,
-        loading: state.loading
       }
     case 'FETCH_DINING_HALLS':
 
-      return{
+      return {
+        ...state,
         diningHalls: action.payload,
-        menus: state.menus,
-        foods: state.foods,
-        value: state.value,
-        dataSource: state.dataSource,
-        contentToDisplay: state.contentToDisplay,
-        content: state.content,
-        loading: state.loading
       }
     case 'FETCH_FOODS':
       return {
+        ...state,
         foods: action.payload,
-        menus: state.menus,
-        diningHalls: state.diningHalls,
-        value: state.value,
-        dataSource: state.dataSource,
-        contentToDisplay: state.contentToDisplay,
-        content: state.content,
-        loading: state.loading
       }
     case 'FETCH_FOOD_ITEM':
       fetch('https://brutrition.herokuapp.com/foods?id=KETCHUP')
       .then((response) => response.json())
       .then((responseJSON) => {
         return {
+          ...state,
           dataSource: responseJSON.Data[0],
           contentToDisplay: true,
-          menus: state.menus,
-          diningHalls: state.diningHalls,
-          foods: state.foods,
-          value: state.value,
-          content: state.content,
-          loading: state.loading
         }
       })
       .catch((error) => {
@@ -73,24 +50,12 @@ const reducer = (state = initialState, action) => {
       })
     case 'UPDATE_COUNT':
       return {
+        ...state,
         value: action.payload,
-        dataSource: state.dataSource,
-        contentToDisplay: true,
-        menus: state.menus,
-        diningHalls: state.diningHalls,
-        foods: state.foods,
-        content: state.content,
-        loading: state.loading
       }
     case 'LOADING_FINISHED':
       return {
-        value: action.payload,
-        dataSource: state.dataSource,
-        contentToDisplay: true,
-        menus: state.menus,
-        diningHalls: state.diningHalls,
-        foods: state.foods,
-        content: state.content,
+        ...state,
         loading: false
       }
   }
@@ -104,7 +69,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        {this.props.loading ? (<View><Text>Loading</Text></View>) : (<Brutrition />)}
+        <Brutrition />
       </Provider>
     );
   }
