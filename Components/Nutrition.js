@@ -33,16 +33,23 @@ class Nutrition extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    dataSource: state.dataSource
+    menus: state.menus,
+    diningHalls: state.diningHalls,
+    foods: state.foods,
+    value: state.value,
+    dataSource: state.dataSource,
+    contentToDisplay: state.contentToDisplay,
+    content: state.content,
+    loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-      fetchMenu: () => dispatch({ type: 'FETCH_MENU'}),
-      fetchDiningHalls: () => dispatch({ type: 'FETCH_DINING_HALLS'}),
-      fetchFoods: () => dispatch({ type: 'FETCH_FOODS'}),
-      fetchFoodItem: () => dispatch({ type: 'FETCH_FOOD_ITEM'})
+    fetchMenu: (menu) => dispatch({ type: 'FETCH_MENU', payload: menu }),
+    fetchDiningHalls: (diningHalls) => dispatch({ type: 'FETCH_DINING_HALLS', payload: diningHalls}),
+    fetchFoods: (foods) => dispatch({ type: 'FETCH_FOODS', payload: foods}),
+    fetchFoodItem: () => dispatch({ type: 'FETCH_FOOD_ITEM'})
   }
 }
 

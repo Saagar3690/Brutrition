@@ -32,16 +32,19 @@ function mapStateToProps(state) {
     foods: state.foods,
     value: state.value,
     dataSource: state.dataSource,
-    content: state.content
+    contentToDisplay: state.contentToDisplay,
+    content: state.content,
+    loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-      fetchMenu: () => dispatch({ type: 'FETCH_MENU'}),
-      fetchDiningHalls: () => dispatch({ type: 'FETCH_DINING_HALLS'}),
-      fetchFoods: () => dispatch({ type: 'FETCH_FOODS'}),
-      fetchFoodItem: () => dispatch({ type: 'FETCH_FOOD_ITEM'})
+    fetchMenu: (menu) => dispatch({ type: 'FETCH_MENU', payload: menu }),
+    fetchDiningHalls: (diningHalls) => dispatch({ type: 'FETCH_DINING_HALLS', payload: diningHalls}),
+    fetchFoods: (foods) => dispatch({ type: 'FETCH_FOODS', payload: foods}),
+    fetchFoodItem: () => dispatch({ type: 'FETCH_FOOD_ITEM'}),
+    updateCount: (value) => dispatch({ type: 'UPDATE_COUNT', payload: value})
   }
 }
 
@@ -61,6 +64,8 @@ class DiningHalls extends React.Component {
   }
 
   render() {
+    console.log(this.props.diningHalls)
+    console.log(this.props.foods)
     var items = [];
     for(let i = 0; i < this.props.diningHalls.length; i++) {
       items.push(
@@ -114,7 +119,7 @@ class DiningHallMenu extends React.Component {
           <Image source={require('../Images/Food.jpg')} style={{borderRadius: 20, borderWidth: 2, width: 30, height: 30}}/>
           <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, fontFamily: 'Times New Roman'}}>{this.props.foods[i]}</Text>
           <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-            <TextInput defaultValue='0' value={this.props.value.toString()} onChangeText={text => this.props.setValue(text)}></TextInput>
+            <TextInput defaultValue='0' value={this.props.value.toString()} onChangeText={text => this.props.updateCount(text)}></TextInput>
           </View>
         </View>
       )

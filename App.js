@@ -12,66 +12,87 @@ const initialState = {
   value: 0,
   dataSource: [],
   contentToDisplay: false,
-  content: ''
+  content: '',
+  loading: true
 }
 
 const reducer = (state = initialState, action) => {
   switch(action.type)
   {
     case 'FETCH_MENU':
-      fetch('https://brutrition.herokuapp.com')
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        return {
-          menus: responseJSON.Data
-        }
-      })
-    case 'FETCH_DINING_HALLS':
-      var diningHallsLoc = []
-      var menuSections = []
-      for (var diningHall in state.menus) {
-        diningHallsLoc.push(diningHall)
-        var diningHallArray = state.menus[diningHall]
-        for (var i = 0; i < diningHallArray.length; i++) {
-          for (var menuSection in diningHallArray[i]) {
-            if (!menuSections.includes(menuSection)) {
-              menuSections.push(menuSection)
-            }
-          }
-        }
+      return {
+        menus: action.payload,
+        diningHalls: state.diningHalls,
+        foods: state.foods,
+        value: state.value,
+        dataSource: state.dataSource,
+        contentToDisplay: state.contentToDisplay,
+        content: state.content,
+        loading: state.loading
       }
+    case 'FETCH_DINING_HALLS':
 
       return{
-        diningHalls: diningHallsLoc
+        diningHalls: action.payload,
+        menus: state.menus,
+        foods: state.foods,
+        value: state.value,
+        dataSource: state.dataSource,
+        contentToDisplay: state.contentToDisplay,
+        content: state.content,
+        loading: state.loading
       }
     case 'FETCH_FOODS':
-      fetch('https://brutrition.herokuapp.com/foods/all')
-      .then((response) => response.json())
-      .then((responseJSON) => {
-        return {
-          foods: Object.keys(responseJSON.Data).map((item) => {
-            let tmpString = item.replace(new RegExp('_', 'g'), ' ').toLowerCase()
-            let tmpString2 = tmpString.split(' ').map((word => {
-              return word.charAt(0).toUpperCase() + word.slice(1)
-            })).join(' ')
-
-            return tmpString2
-          })
-        }
-      })
+      return {
+        foods: action.payload,
+        menus: state.menus,
+        diningHalls: state.diningHalls,
+        value: state.value,
+        dataSource: state.dataSource,
+        contentToDisplay: state.contentToDisplay,
+        content: state.content,
+        loading: state.loading
+      }
     case 'FETCH_FOOD_ITEM':
       fetch('https://brutrition.herokuapp.com/foods?id=KETCHUP')
       .then((response) => response.json())
       .then((responseJSON) => {
         return {
           dataSource: responseJSON.Data[0],
-          contentToDisplay: true
+          contentToDisplay: true,
+          menus: state.menus,
+          diningHalls: state.diningHalls,
+          foods: state.foods,
+          value: state.value,
+          content: state.content,
+          loading: state.loading
         }
       })
       .catch((error) => {
         console.error(error)
       })
-
+    case 'UPDATE_COUNT':
+      return {
+        value: action.payload,
+        dataSource: state.dataSource,
+        contentToDisplay: true,
+        menus: state.menus,
+        diningHalls: state.diningHalls,
+        foods: state.foods,
+        content: state.content,
+        loading: state.loading
+      }
+    case 'LOADING_FINISHED':
+      return {
+        value: action.payload,
+        dataSource: state.dataSource,
+        contentToDisplay: true,
+        menus: state.menus,
+        diningHalls: state.diningHalls,
+        foods: state.foods,
+        content: state.content,
+        loading: false
+      }
   }
   return state
 }
@@ -83,7 +104,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Brutrition />
+        {this.props.loading ? (<View><Text>Loading</Text></View>) : (<Brutrition />)}
       </Provider>
     );
   }
