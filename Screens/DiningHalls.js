@@ -26,7 +26,7 @@ class DiningHalls extends React.Component {
         })}>
           <View style={{flexDirection: 'column', paddingBottom: 40, justifyContent: 'center'}}>
             <Image source={require('../Images/Food.jpg')} style={{borderRadius: 40, borderWidth: 2, width: 75, height: 75}}/>
-            <Text style={{paddingLeft: 12, paddingTop: 5, fontFamily: 'Times New Roman'}}>{this.props.diningHalls[i]}</Text>
+            <Text style={{paddingLeft: 12, paddingTop: 5, /*fontFamily: 'Times New Roman'*/}}>{this.props.diningHalls[i]}</Text>
           </View>
         </TouchableWithoutFeedback>
       )
@@ -34,10 +34,10 @@ class DiningHalls extends React.Component {
     return (
       <View>
         <TopBar/>
-        <View style={{flexDirection: 'row', justifyContent: 'left', padding: 20}}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', padding: 20}}>
           <Text style={{fontSize: 30, fontWeight: 'bold'}}>Add Meal</Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'left', padding: 20}}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', padding: 20}}>
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>All Dining Halls</Text>
         </View>
         <View style={{paddingLeft: 30}}>

@@ -24,7 +24,7 @@ class DiningHallMenu extends React.Component {
       foodItems.push(
         <View key={i} style={{flexDirection: 'row', paddingBottom: 40}}>
           <Image source={require('../Images/Food.jpg')} style={{borderRadius: 20, borderWidth: 2, width: 30, height: 30}}/>
-          <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, fontFamily: 'Times New Roman'}}>{this.props.foods[i]}</Text>
+          <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, /*fontFamily: 'Times New Roman'*/}}>{this.props.foods[i]}</Text>
           <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
             <TextInput defaultValue='0' value={this.props.value.toString()} onChangeText={text => this.props.updateCount(text)}></TextInput>
           </View>
