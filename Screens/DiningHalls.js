@@ -22,7 +22,8 @@ class DiningHalls extends React.Component {
     for(let i = 0; i < this.props.diningHalls.length; i++) {
       items.push(
         <TouchableWithoutFeedback key={i} onPress={() => this.state.navigation.navigate('Dining Hall Menu', {
-          diningHallName: this.props.diningHalls[i]
+          diningHallName: this.props.diningHalls[i],
+          menu: this.props.menus[this.props.diningHalls[i]]
         })}>
           <View style={{flexDirection: 'column', paddingBottom: 40, justifyContent: 'center'}}>
             <Image source={require('../Images/Food.jpg')} style={{borderRadius: 40, borderWidth: 2, width: 75, height: 75}}/>

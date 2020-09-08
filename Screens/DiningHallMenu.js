@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Text, View, Button, Image, TouchableWithoutFeedback, ScrollView, TextInput, StyleSheet } from 'react-native'
 
 import TopBar from '../Components/TopBar'
+import SubMenu from '../Components/SubMenu'
 
 import {connect} from 'react-redux'
 
@@ -10,25 +11,50 @@ class DiningHallMenu extends React.Component {
     super(props)
     this.state = {
       navigation: props.navigation,
-      diningHallName: props.diningHallName
+      diningHallName: props.route.params.diningHallName,
+      menu: props.route.params.menu,
+      subMenu: [],
+      subMenuItems: []
     }
   }
 
   async componentDidMount() {
+    this.getSubMenus()
     this.render()
   }
 
+  getSubMenus() {
+    var tmp = []
+    for (const part in this.state.menu[0]) {
+      tmp.push(part)
+    }
+    var allSubMenus = {}
+    for (let i = 0; i < tmp.length; i++) {
+      var foodItems = {}
+      for (let j = 0; j < this.state.menu.length; j++) {
+        for (const item in this.state.menu[j][tmp[i]]) {
+          foodItems[item] = this.state.menu[j][tmp[i]][item]
+        }
+      }
+      allSubMenus[tmp[i]] = foodItems
+    }
+
+    this.setState({
+      subMenu: tmp,
+      subMenuItems: allSubMenus
+    })
+
+  }
+
   render() {
-    var foodItems = [];
-    for(let i = 0; i < this.props.foods.length; i++) {
-      foodItems.push(
-        <View key={i} style={{flexDirection: 'row', paddingBottom: 40}}>
-          <Image source={require('../Images/Food.jpg')} style={{borderRadius: 20, borderWidth: 2, width: 30, height: 30}}/>
-          <Text style={{flex: 1, fontSize: 14, paddingLeft: 10, paddingRight: 15, paddingTop: 6, /*fontFamily: 'Times New Roman'*/}}>{this.props.foods[i]}</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-            <TextInput defaultValue='0' value={this.props.value.toString()} onChangeText={text => this.props.updateCount(text)}></TextInput>
-          </View>
-        </View>
+    var items = [];
+
+    for(let i = 0; i < this.state.subMenu.length; i++) {
+      items.push(
+        <SubMenu
+          subMenuName={this.state.subMenu[i]}
+          foods={this.state.subMenuItems[this.state.subMenu[i]]}
+        />
       )
     }
 
@@ -38,8 +64,8 @@ class DiningHallMenu extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'center', padding: 20}}>
           <Text style={{fontSize: 25}}>{this.state.diningHallName}</Text>
         </View>
-        <ScrollView contentContainerStyle={{padding: 10, paddingLeft: 30, paddingRight: 30}}>
-          { foodItems }
+        <ScrollView contentContainerStyle={{padding: 10, paddingLeft: 10, paddingRight: 10}}>
+          { items }
         </ScrollView>
         <Button title='Calculate' buttonStyle={{backgroundColor: Colors.primary }} onPress={() => this.state.navigation.navigate('Nutrition Info')}/>
       </View>
