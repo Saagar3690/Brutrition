@@ -14,7 +14,8 @@ class DiningHallMenu extends React.Component {
       diningHallName: props.route.params.diningHallName,
       menu: props.route.params.menu,
       subMenu: [],
-      subMenuItems: []
+      subMenuItems: [],
+      quantities: {}
     }
   }
 
@@ -41,19 +42,44 @@ class DiningHallMenu extends React.Component {
 
     this.setState({
       subMenu: tmp,
-      subMenuItems: allSubMenus
+      subMenuItems: allSubMenus,
+      quantities: {}
     })
+    console.log(tmp, allSubMenus)
 
+  }
+  onCalculate = () => {
+    for(let subMenu of this.state.subMenu) {
+      if(!this.state.quantities[subMenu]) continue
+      for(let i = 0; i < this.state.quantities[subMenu].length; i++) {
+        if(this.state.quantities[subMenu][i]) {
+          console.log(Object.keys(this.state.subMenuItems[subMenu])[i], this.state.quantities[subMenu][i])
+        }
+      }
+    }
+    this.state.navigation.navigate('Nutrition Info', {
+
+    })
   }
 
   render() {
-    var items = [];
-
+    var items = []
     for(let i = 0; i < this.state.subMenu.length; i++) {
+      let name = this.state.subMenu[i]
+      let foods = this.state.subMenuItems[name]
       items.push(
         <SubMenu
-          subMenuName={this.state.subMenu[i]}
-          foods={this.state.subMenuItems[this.state.subMenu[i]]}
+          subMenuName={name}
+          foods={foods}
+          quantityHandler={(index, val) => {
+            let quantities = {...this.state.quantities}
+            if(!quantities[name]) quantities[name] = new Array(foods.length).fill(0)
+            quantities[name][index] = parseInt(val)
+            console.log('Quant', quantities)
+            this.setState({
+              quantities
+            })
+          }}
         />
       )
     }
@@ -67,7 +93,7 @@ class DiningHallMenu extends React.Component {
         <ScrollView contentContainerStyle={{padding: 10, paddingLeft: 10, paddingRight: 10}}>
           { items }
         </ScrollView>
-        <Button title='Calculate' buttonStyle={{backgroundColor: Colors.primary }} onPress={() => this.state.navigation.navigate('Nutrition Info')}/>
+        <Button title='Calculate' buttonStyle={{backgroundColor: Colors.primary }} onPress={this.onCalculate}/>
       </View>
     )
   }

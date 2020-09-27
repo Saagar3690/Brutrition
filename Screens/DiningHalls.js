@@ -18,7 +18,7 @@ class DiningHalls extends React.Component {
   }
 
   render() {
-    var items = [];
+    var items = []
     for(let i = 0; i < this.props.diningHalls.length; i++) {
       items.push(
         <TouchableWithoutFeedback key={i} onPress={() => this.state.navigation.navigate('Dining Hall Menu', {

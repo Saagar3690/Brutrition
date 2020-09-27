@@ -21,6 +21,11 @@ export default class FoodItem extends React.Component {
     return tmpString2
   }
 
+  handleChangeValue = value => {
+    this.setState({ value })
+    this.props.quantityHandler(this.props.index, value)
+  }
+
   render() {
     return (
       <View style={{flexDirection: 'row', paddingBottom: 40, paddingLeft: 10}}>
@@ -30,7 +35,7 @@ export default class FoodItem extends React.Component {
           <Text style={{fontSize: 10}}>Serving Size: {this.state.portion}</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-          <TextInput defaultValue='0' value={this.state.value.toString()} onChangeText={text => this.setState({value: text})} keyboardType='numeric' placeholder='0'></TextInput>
+          {<TextInput defaultValue='0' value={this.state.value.toString()} onChangeText={this.handleChangeValue} keyboardType='numeric' placeholder='0'></TextInput>}
         </View>
       </View>
     )

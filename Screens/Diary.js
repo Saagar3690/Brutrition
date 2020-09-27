@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { Text, View, Image, ScrollView, StyleSheet, Button } from 'react-native'
-import Meal from '../Objects/Meal'
-
 import TopBar from '../Components/TopBar'
+import Meal from '../Objects/Meal'
+import {connect} from 'react-redux'
 
 import Colors from '../Constants/Colors'
 
-export default class Diary extends React.Component {
+class Diary extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: this.props.title,
-      meals: [ new Meal(), new Meal() ]
+      title: this.props.title
     }
   }
 
@@ -23,14 +22,14 @@ export default class Diary extends React.Component {
           <Text style={styles.titleText}>{this.state.title}</Text>
           <Text style={styles.subtitleText}>September 2, 2020</Text>
           <View>
-          {this.state.meals.map(meal => {
+          {this.props.meals.map(meal => {
               return (
                 <View>
                   <Text style={[styles.subtitleText2, {marginLeft: 20}]}>{meal.type} at DeNeve</Text>
                   <View style={styles.containerH}>
                     <View>
                       <Text style={{marginLeft: 40, fontWeight: 'bold', fontSize: 18}}>Item</Text>
-                      {Object.keys(meal.items).map(key => <Text style={{marginLeft: 40}}>{key}</Text>)}
+                      {Object.keys(meal.items).map(key => <Text key={key} style={{marginLeft: 40}}>{key}</Text>)}
                     </View>
                     <View>
                       <Text style={{marginLeft: 40, fontWeight: 'bold', fontSize: 18}}>Qty.</Text>
@@ -47,6 +46,19 @@ export default class Diary extends React.Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    meals: state.meals
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Diary)
 
 const styles = StyleSheet.create({
   titleText: {

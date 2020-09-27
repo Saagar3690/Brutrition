@@ -21,7 +21,7 @@ render() {
       <Image source={require('../Images/graph.png')} style={{height: 200, width: 'auto', margin: 10}}></Image>
       <Text style={styles.titleText}>Meals</Text>
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        {this.state.meals.map(meal => <MealSummary data={meal} />)}
+        {this.state.meals.map((meal, i) => <MealSummary key={i} data={meal} />)}
       </View>
       <Text style={styles.titleText}>My Friends</Text>
       {/*

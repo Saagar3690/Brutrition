@@ -15,12 +15,16 @@ export default class SubMenu extends React.Component {
   render() {
     var foodItems = []
 
-    for (food in this.state.foods) {
+    for (let i = 0; i < Object.keys(this.state.foods).length; i++) {
+      let food = Object.keys(this.state.foods)[i]
       foodItems.push(
         <FoodItem
-        foodName={food}
-        portion={this.state.foods[food]['portion']}
-        url={this.state.foods[food]['link']}
+          foodName={food}
+          portion={this.state.foods[food]['portion']}
+          url={this.state.foods[food]['link']}
+          key={i}
+          index={i}
+          quantityHandler={this.props.quantityHandler}
         />
       )
     }
@@ -29,7 +33,7 @@ export default class SubMenu extends React.Component {
       <View style={{flexDirection: 'column', paddingBottom: 40}}>
           <Text style={{flex: 1, fontSize: 20, paddingRight: 15, paddingTop: 6, paddingBottom: 10, /*fontFamily: 'Times New Roman'*/}}>{this.state.subMenuName}</Text>
           <View>
-            {foodItems}
+            { foodItems }
           </View>
         </View>
     )

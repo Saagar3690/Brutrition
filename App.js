@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import Brutrition from './src/Brutrition'
+import Meal from './Objects/Meal'
 
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
@@ -13,7 +14,8 @@ const initialState = {
   dataSource: [],
   contentToDisplay: false,
   content: '',
-  loading: true
+  loading: true,
+  meals: [ new Meal() ]
 }
 
 const reducer = (state = initialState, action) => {
