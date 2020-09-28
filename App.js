@@ -15,7 +15,7 @@ const initialState = {
   contentToDisplay: false,
   content: '',
   loading: true,
-  meals: [ new Meal() ]
+  meals: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -59,6 +59,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false
+      }
+    case 'ADD_MEAL':
+      //console.log('Adding meal', state.meals, action.payload)
+      let meals = state.meals.slice()
+      meals.push(action.payload)
+      return {
+        ...state,
+        meals
       }
   }
   return state

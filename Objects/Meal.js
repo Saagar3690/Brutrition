@@ -1,9 +1,19 @@
 export default class Meal {
-  constructor() {
-      this.type = 'Lunch'
-      this.items = { 'Steak and Eggs': 1, 'Salad': 1, 'Oatmeal': 1, 'Roasted Veggies': 1, 'Soda': 1 }
-      this.calories = 1000
-      this.protein = 20
-      this.carbs = 50
+  constructor(type='Lunch', foods=[]) {
+      this.type = type
+      this.foods = foods
+      this.items = {}
+      for(let food of foods) {
+        this.items[food.foodName] = food.quantity
+      }
+  }
+  get calories() {
+    return 1000
+  }
+  get protein() {
+    return 20
+  }
+  get carbs() {
+    return 50
   }
 }

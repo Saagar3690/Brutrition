@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Text, View, Button, Image, TouchableWithoutFeedback, ScrollView, TextInput, StyleSheet } from 'react-native'
 
+import Meal from '../Objects/Meal'
 import TopBar from '../Components/TopBar'
 import SubMenu from '../Components/SubMenu'
 
@@ -49,17 +50,30 @@ class DiningHallMenu extends React.Component {
 
   }
   onCalculate = () => {
+    let foodPromises = []
     for(let subMenu of this.state.subMenu) {
       if(!this.state.quantities[subMenu]) continue
       for(let i = 0; i < this.state.quantities[subMenu].length; i++) {
         if(this.state.quantities[subMenu][i]) {
-          console.log(Object.keys(this.state.subMenuItems[subMenu])[i], this.state.quantities[subMenu][i])
+          let foodId = Object.keys(this.state.subMenuItems[subMenu])[i]
+          let foodAmount = this.state.quantities[subMenu][i]
+          foodPromises.push(
+            fetch('https://brutrition.herokuapp.com/foods?id=' + foodId)
+            .then(response => response.json())
+            .then(responseJSON => { return {...responseJSON.Data[0], quantity: foodAmount}})
+          )
+          console.log(foodId, foodAmount)
         }
       }
     }
-    this.state.navigation.navigate('Nutrition Info', {
-
+    Promise.all(foodPromises).then(foodsInfo => {
+      let meal = new Meal('Meal', foodsInfo)
+      this.props.addMeal(meal)
+      console.log(foodsInfo)
     })
+    // this.state.navigation.navigate('Nutrition Info', {
+
+    // })
   }
 
   render() {
@@ -114,6 +128,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    addMeal: (meal) => dispatch({ type: 'ADD_MEAL', payload: meal }),
     fetchMenu: (menu) => dispatch({ type: 'FETCH_MENU', payload: menu }),
     fetchDiningHalls: (diningHalls) => dispatch({ type: 'FETCH_DINING_HALLS', payload: diningHalls}),
     fetchFoods: (foods) => dispatch({ type: 'FETCH_FOODS', payload: foods}),
