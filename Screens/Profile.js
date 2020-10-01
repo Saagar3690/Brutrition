@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import CircleImage from '../Components/CircleImage'
+import { connect } from 'react-redux'
+import moment from 'moment'
 
 import TopBar from '../Components/TopBar'
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,8 +23,8 @@ export default class Profile extends React.Component {
           <View style={styles.containerV}>
             <CircleImage size={120} path={'../Images/icecream.png'} />
             <Text style={{marginTop: 10}}>John Doe</Text>
-            <Text style={{margin: 0}}>10 Meals Tracked</Text>
-            <Text style={{margin: 0}}>Last meal 4 hours ago</Text>
+            <Text style={{margin: 0}}>{this.props.meals.length} Meals Tracked</Text>
+            {this.props.meals.length > 0 && <Text style={{margin: 0}}>Last meal {this.props.meals[this.props.meals.length - 1].timestamp.fromNow()}</Text>}
           </View>
           <Text style={styles.titleText}>My Goals</Text>
           <View style={{marginLeft: 40}}>
@@ -53,4 +55,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20
   }
-});
+})
+
+function mapStateToProps(state) {
+  return {
+    meals: state.meals
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

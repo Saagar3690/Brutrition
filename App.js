@@ -4,6 +4,9 @@ import Brutrition from './src/Brutrition'
 import Meal from './Objects/Meal'
 
 import {createStore} from 'redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore, persistReducer } from 'redux-persist'
+import AsyncStorage from '@react-native-community/async-storage'
 import {Provider} from 'react-redux'
 
 const initialState = {
@@ -68,18 +71,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         meals
       }
+    default:
+      return state
   }
-  return state
 }
 
-const store = createStore(reducer)
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+}
+const persistedReducer = persistReducer(persistConfig, reducer)
+const store = createStore(persistedReducer)
+const persistor = persistStore(store)
 
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Brutrition />
+        <PersistGate loading={null} persistor={persistor}>
+          <Brutrition />
+        </PersistGate>
       </Provider>
     );
   }

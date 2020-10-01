@@ -46,7 +46,7 @@ class DiningHallMenu extends React.Component {
       subMenuItems: allSubMenus,
       quantities: {}
     })
-    console.log(tmp, allSubMenus)
+    //console.log(tmp, allSubMenus)
 
   }
   onCalculate = () => {
@@ -61,15 +61,19 @@ class DiningHallMenu extends React.Component {
             fetch('https://brutrition.herokuapp.com/foods?id=' + foodId)
             .then(response => response.json())
             .then(responseJSON => { return {...responseJSON.Data[0], quantity: foodAmount}})
+            .catch(error => {
+              console.error(error)
+              return 0
+            })
           )
           console.log(foodId, foodAmount)
         }
       }
     }
     Promise.all(foodPromises).then(foodsInfo => {
-      let meal = new Meal('Meal', foodsInfo)
+      let meal = new Meal('Meal', foodsInfo.filter(val => val != 0))
       this.props.addMeal(meal)
-      console.log(foodsInfo)
+      //console.log(foodsInfo)
     })
     // this.state.navigation.navigate('Nutrition Info', {
 
@@ -89,7 +93,7 @@ class DiningHallMenu extends React.Component {
             let quantities = {...this.state.quantities}
             if(!quantities[name]) quantities[name] = new Array(foods.length).fill(0)
             quantities[name][index] = parseInt(val)
-            console.log('Quant', quantities)
+            //console.log('Quant', quantities)
             this.setState({
               quantities
             })

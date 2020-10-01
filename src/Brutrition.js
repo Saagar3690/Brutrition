@@ -24,7 +24,7 @@ class Brutrition extends React.Component {
     .then((response) => response.json())
     .then((responseJSON) => {
       this.props.fetchMenu(responseJSON.Data)
-      console.log(responseJSON.Data)
+      //console.log(responseJSON.Data)
     })
 
     var diningHallsLoc = []
