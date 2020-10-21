@@ -51,33 +51,41 @@ class DiningHallMenu extends React.Component {
   }
   onCalculate = () => {
     let foodPromises = []
+    //let foodIds = []
+    let foodInfos, foodAmounts = []
     for(let subMenu of this.state.subMenu) {
       if(!this.state.quantities[subMenu]) continue
       for(let i = 0; i < this.state.quantities[subMenu].length; i++) {
         if(this.state.quantities[subMenu][i]) {
           let foodId = Object.keys(this.state.subMenuItems[subMenu])[i]
           let foodAmount = this.state.quantities[subMenu][i]
+          if(foodAmount !== 0)
+            foodAmounts.push(foodAmount)
           foodPromises.push(
             fetch('https://brutrition.herokuapp.com/foods?id=' + foodId)
             .then(response => response.json())
-            .then(responseJSON => { return {...responseJSON.Data[0], quantity: foodAmount}})
+            .then(responseJSON => {return {...responseJSON.Data[0], quantity: foodAmount}})
             .catch(error => {
               console.error(error)
               return 0
             })
           )
-          console.log(foodId, foodAmount)
+          //foodIds.push(foodId)
+          //console.log(foodId, foodAmount)
         }
       }
     }
     Promise.all(foodPromises).then(foodsInfo => {
       let meal = new Meal('Meal', foodsInfo.filter(val => val != 0))
       this.props.addMeal(meal)
-      //console.log(foodsInfo)
+      foodInfos = foodsInfo.filter(val => val != 0);
+      //console.log(foodInfos)
+      this.state.navigation.navigate('Nutrition Info', {
+        //foodIds: foodIds,
+        foodInfos: foodInfos,
+        foodAmounts: foodAmounts
+      })
     })
-    // this.state.navigation.navigate('Nutrition Info', {
-
-    // })
   }
 
   render() {

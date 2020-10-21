@@ -8,7 +8,6 @@ class Nutrition extends React.Component {
     return (
       <View>
         <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>{this.props.dataSource.foodName}</Text>
-        <Text style={{fontStyle: 'italic', textAlign: 'center'}}>{this.props.dataSource.description !== this.props.dataSource.prodWebCodes[0] ? this.props.dataSource.description : 'No Description'}</Text>
         <Text style={{fontSize: 10, textAlign: 'center'}}>*{this.props.dataSource.prodWebCodes.join(', ')}</Text>
         <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Serving Size: </Text><Text>{this.props.dataSource.servingSize}</Text></View>
         <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calories: </Text><Text>{this.props.dataSource.calories}</Text></View>
@@ -37,7 +36,6 @@ function mapStateToProps(state) {
     diningHalls: state.diningHalls,
     foods: state.foods,
     value: state.value,
-    dataSource: state.dataSource,
     contentToDisplay: state.contentToDisplay,
     content: state.content,
     loading: state.loading

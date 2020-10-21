@@ -31,11 +31,11 @@ export default class SubMenu extends React.Component {
 
     return (
       <View style={{flexDirection: 'column', paddingBottom: 40}}>
-          <Text style={{flex: 1, fontSize: 20, paddingRight: 15, paddingTop: 6, paddingBottom: 10, /*fontFamily: 'Times New Roman'*/}}>{this.state.subMenuName}</Text>
-          <View>
-            { foodItems }
-          </View>
+        <Text style={{flex: 1, fontSize: 20, paddingRight: 15, paddingTop: 6, paddingBottom: 10, /*fontFamily: 'Times New Roman'*/}}>{this.state.subMenuName}</Text>
+        <View>
+          { foodItems }
         </View>
+      </View>
     )
   }
 }

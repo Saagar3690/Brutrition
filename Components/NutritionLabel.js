@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import b from './Bold'
 
-export default ({ 
+export default ({
     servingSize,
     servingsPerContainer,
     calories,
@@ -18,7 +18,7 @@ export default ({
     vitaminA,
     vitaminC,
     calcium,
-    iron 
+    iron
 }) => (
     <View style={{borderColor: 'black'}}>
         <Text style={[styles.title, styles.hr]}>Nutrition Facts</Text>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     thickestHr: {
         borderBottomColor: 'black',
-        borderBottomWidth: '10'
+        borderBottomWidth: 10
     },
     hr: {
         borderBottomColor: 'gray',

@@ -7,7 +7,7 @@ export default class FoodItem extends React.Component {
     this.state = {
       foodName: props.foodName,
       portion: props.portion,
-      value: 0,
+      value: '',
       url: props.url,
     }
   }
@@ -35,7 +35,7 @@ export default class FoodItem extends React.Component {
           <Text style={{fontSize: 10}}>Serving Size: {this.state.portion}</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-          {<TextInput defaultValue='0' value={this.state.value.toString()} onChangeText={this.handleChangeValue} keyboardType='numeric' placeholder='0'></TextInput>}
+          {<TextInput defaultValue='0' style={{width: 50, textAlign: 'center'}} value={this.state.value.toString()} onChangeText={this.handleChangeValue} keyboardType='numeric' placeholder='0'></TextInput>}
         </View>
       </View>
     )

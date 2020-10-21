@@ -6,7 +6,7 @@ export default class Meal {
       this.foods = foods
       this.items = {}
       for(let food of foods) {
-        console.log(food)
+        //console.log(food)
         this.items[food.foodName] = food.quantity
       }
       this.timestamp = moment()
