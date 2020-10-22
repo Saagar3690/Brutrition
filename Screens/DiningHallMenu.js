@@ -76,7 +76,7 @@ class DiningHallMenu extends React.Component {
       }
     }
     Promise.all(foodPromises).then(foodsInfo => {
-      let meal = new Meal('Meal', foodsInfo.filter(val => val != 0))
+      let meal = new Meal(foodsInfo.filter(val => val != 0))
       this.props.addMeal(meal)
       foodInfos = foodsInfo.filter(val => val != 0);
       //console.log(foodInfos)
@@ -113,8 +113,8 @@ class DiningHallMenu extends React.Component {
     return (
       <View style={{paddingBottom: 200}}>
         <TopBar/>
-        <View style={{flexDirection: 'row', justifyContent: 'center', padding: 20}}>
-          <Text style={{fontSize: 25}}>{this.state.diningHallName}</Text>
+        <View style={{flexDirection: 'row', paddingLeft: 20, paddingTop: 20}}>
+          <Text style={{fontSize: 30, fontWeight: 'bold'}}>{this.state.diningHallName}</Text>
         </View>
         <ScrollView contentContainerStyle={{padding: 10, paddingLeft: 10, paddingRight: 10}}>
           { items }

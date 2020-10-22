@@ -13,7 +13,11 @@ class Home extends React.Component {
   }
 
 render() {
-  let mealSummaries = this.props.meals.slice(0, 4).map((meal, i) => <MealSummary key={i} data={meal} />)
+  let start = this.props.meals.length - 3
+  if (start < 0)
+    start = 0
+  let mealSummaries = this.props.meals.slice(start).reverse().map((meal, i) => <MealSummary key={i} data={meal} />)
+  console.log(mealSummaries)
   return (
     <View>
       <TopBar/>
@@ -56,7 +60,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    
+
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

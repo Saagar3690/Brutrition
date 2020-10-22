@@ -1,8 +1,7 @@
 import moment from 'moment'
 
 export default class Meal {
-  constructor(type='Lunch', foods=[]) {
-      this.type = type
+  constructor(foods=[]) {
       this.foods = foods
       this.items = {}
       for(let food of foods) {
@@ -10,6 +9,17 @@ export default class Meal {
         this.items[food.foodName] = food.quantity
       }
       this.timestamp = moment()
+      let hour = moment().hour()
+      if (hour >= 5 && hour <= 11)
+        this.type = "Breakfast"
+      else if (hour > 11 && hour <= 15)
+        this.type = "Lunch"
+      else if (hour > 15 && hour <= 17)
+        this.type = "Snack"
+      else if (hour > 17 && hour <= 11)
+        this.type = "Dinner"
+      else
+        this.type = "Midnight Snack"
   }
   get calories() {
     return this.foods.reduce((accum, food) => accum + parseInt(food.calories) * food.quantity, 0)

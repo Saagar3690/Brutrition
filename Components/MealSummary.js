@@ -17,9 +17,9 @@ export default class MealSummary extends React.Component {
     render() {
         const { calories, protein, carbs, type } = this.props.data
         return (
-            <View style={{flexDirection: 'column', margin: 10, alignItems: 'center'}}>
+            <View style={{flexDirection: 'column', margin: 20, alignItems: 'center'}}>
                 <CircleImage size={75} path={'../Images/icecream.png'} ></CircleImage>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 5 }}>{type}</Text>
+                <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 5 }}>{type}</Text>
                 <Text style={styles.details}>{calories} cal</Text>
                 <Text style={styles.details}>{protein}g pro.</Text>
                 <Text style={styles.details}>{carbs}g carb.</Text>
