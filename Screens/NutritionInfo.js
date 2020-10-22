@@ -73,51 +73,53 @@ class NutritionInfo extends React.Component {
 
       <View>
         <TopBar/>
-        <View style={{flexDirection: 'column', justifyContent: 'center', padding: 20}}>
-          <Text style={{fontSize: 30, fontWeight: 'bold'}}>Meal Summary</Text>
-          <View style={{flexDirection: 'row', paddingTop: 10}}>
-            <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
-              <View style={{backgroundColor: 'black', borderRadius: 25, width: 35, height: 35, justifyContent: 'center', alignItems: 'center'}}>
-                <Ionicons name='ios-flame' size='30' color='red' />
+        <ScrollView showsVerticalScrollIndicator={true}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', padding: 20}}>
+            <Text style={{fontSize: 30, fontWeight: 'bold'}}>Meal Summary</Text>
+            <View style={{flexDirection: 'row', paddingTop: 10}}>
+              <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{backgroundColor: 'black', borderRadius: 25, width: 35, height: 35, justifyContent: 'center', alignItems: 'center'}}>
+                  <Ionicons name='ios-flame' size='30' color='red' />
+                </View>
+                <Text style={{fontWeight: 'bold', paddingTop: 5}}>Calories</Text>
+                <Text>{this.roundToTwo(totalCalories)} cal</Text>
               </View>
-              <Text style={{fontWeight: 'bold', paddingTop: 5}}>Calories</Text>
-              <Text>{this.roundToTwo(totalCalories)} cal</Text>
+              <MealSummaryPiece name={'Carbs'} value={this.roundToTwo(totalCarbs)} shorthand={'C'} color={'blue'} />
+              <MealSummaryPiece name={'Fats'} value={this.roundToTwo(totalFats)} shorthand={'F'} color={'green'} />
+              <MealSummaryPiece name={'Proteins'} value={this.roundToTwo(totalProteins)} shorthand={'P'} color={'orange'} />
             </View>
-            <MealSummaryPiece name={'Carbs'} value={this.roundToTwo(totalCarbs)} shorthand={'C'} color={'blue'} />
-            <MealSummaryPiece name={'Fats'} value={this.roundToTwo(totalFats)} shorthand={'F'} color={'green'} />
-            <MealSummaryPiece name={'Proteins'} value={this.roundToTwo(totalProteins)} shorthand={'P'} color={'orange'} />
           </View>
-        </View>
-        <View style={{flexDirection: 'row', padding: 20}}>
-          <Text style={{fontSize: 30, fontWeight: 'bold'}}>Nutritional Info</Text>
-        </View>
-        <View style={styles.descriptionContainer}>
-          <View style={{maxHeight: 500}}>
-            <Carousel
-              ref={(c) => { this._carousel = c; }}
-              data={this.state.foodInfos}
-              renderItem={this._renderItem}
-              sliderWidth={Dimensions.get('window').width-30}
-              itemWidth={Dimensions.get('window').width-30}
-              onSnapToItem={(index) => this.setState({ activeSlide: index })}
-            />
-            <Pagination
-              dotsLength={this.state.foodInfos.length}
-              activeDotIndex={this.state.activeSlide}
-              dotStyle={{
-                  width: 15,
-                  height: 15,
-                  borderRadius: 10,
-                  marginHorizontal: 4,
-                  backgroundColor: 'rgba(0, 0, 0, 0.75)'
-              }}
-              inactiveDotOpacity={0.4}
-              inactiveDotScale={0.6}
-              tappableDots={true}
-              carouselRef={this._carousel}
-            />
+          <View style={{flexDirection: 'row', paddingLeft: 20}}>
+            <Text style={{fontSize: 30, fontWeight: 'bold'}}>Nutritional Info</Text>
           </View>
-        </View>
+          <View style={styles.descriptionContainer}>
+            <View style={{maxHeight: 540}}>
+              <Carousel
+                ref={(c) => { this._carousel = c; }}
+                data={this.state.foodInfos}
+                renderItem={this._renderItem}
+                sliderWidth={Dimensions.get('window').width-30}
+                itemWidth={Dimensions.get('window').width-30}
+                onSnapToItem={(index) => this.setState({ activeSlide: index })}
+              />
+              <Pagination
+                dotsLength={this.state.foodInfos.length}
+                activeDotIndex={this.state.activeSlide}
+                dotStyle={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: 10,
+                    marginHorizontal: 4,
+                    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+                }}
+                inactiveDotOpacity={0.4}
+                inactiveDotScale={0.6}
+                tappableDots={true}
+                carouselRef={this._carousel}
+              />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     )
   }

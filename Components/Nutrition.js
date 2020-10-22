@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 
 import {connect} from 'react-redux'
+
+import NutritionLabel from './NutritionLabel'
 
 class Nutrition extends React.Component {
   render() {
@@ -9,26 +11,45 @@ class Nutrition extends React.Component {
       <View>
         <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>{this.props.dataSource.foodName}</Text>
         <Text style={{fontSize: 10, textAlign: 'center'}}>*{this.props.dataSource.prodWebCodes.join(', ')}</Text>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Serving Size: </Text><Text>{this.props.dataSource.servingSize}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calories: </Text><Text>{this.props.dataSource.calories}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Fat Calories: </Text><Text>{this.props.dataSource.fatCalories}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Total Fat: </Text><Text>{this.props.dataSource.totalFat.val} ({this.props.dataSource.totalFat.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Saturated Fat: </Text><Text>{this.props.dataSource.saturatedFat.val} ({this.props.dataSource.saturatedFat.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Trans Fat: </Text><Text>{this.props.dataSource.transFat}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Cholesterol: </Text><Text>{this.props.dataSource.cholesterol.val} ({this.props.dataSource.cholesterol.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Sodium: </Text><Text>{this.props.dataSource.sodium.val} ({this.props.dataSource.sodium.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Total Carbohydrate: </Text><Text>{this.props.dataSource.totalCarbohydrate.val} ({this.props.dataSource.totalCarbohydrate.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Dietary Fiber: </Text><Text>{this.props.dataSource.dietaryFiber.val} ({this.props.dataSource.dietaryFiber.dailyVal})</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Sugars: </Text><Text>{this.props.dataSource.sugars}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Protein: </Text><Text>{this.props.dataSource.protein}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Vitamin A: </Text><Text>{this.props.dataSource.vitaminA}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Vitamin C: </Text><Text>{this.props.dataSource.vitaminC}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Calcium: </Text><Text>{this.props.dataSource.calcium}</Text></View>
-        <View style={{flexDirection: 'row'}}><Text style={{fontWeight: 'bold'}}>Iron: </Text><Text>{this.props.dataSource.iron}</Text></View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <NutritionLabel
+            style={styles.label}
+            servingSize={this.props.dataSource.servingSize}
+            servingsPerContainer={2}
+            calories={this.props.dataSource.calories}
+            totalFat={this.props.dataSource.totalFat.val}
+            totalFatPercent={this.props.dataSource.totalFat.dailyVal}
+            saturatedFat={this.props.dataSource.saturatedFat.val}
+            saturatedFatPercent={this.props.dataSource.saturatedFat.dailyVal}
+            transFat={this.props.dataSource.transFat}
+            cholesterol={this.props.dataSource.cholesterol.val}
+            cholesterolPercent={this.props.dataSource.cholesterol.dailyVal}
+            sodium={this.props.dataSource.sodium.val}
+            sodiumPercent={this.props.dataSource.sodium.dailyVal}
+            totalCarbs={this.props.dataSource.totalCarbohydrate.val}
+            totalCarbsPercent={this.props.dataSource.totalCarbohydrate.dailyVal}
+            dietaryFiber={this.props.dataSource.dietaryFiber.val}
+            dietaryFiberPercent={this.props.dataSource.dietaryFiber.dailyVal}
+            sugars={this.props.dataSource.sugars}
+            protein={this.props.dataSource.protein}
+            vitaminA={this.props.dataSource.vitaminA}
+            vitaminC={this.props.dataSource.vitaminC}
+            calcium={this.props.dataSource.calcium}
+            iron={this.props.dataSource.iron}
+          />
+        </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  label: {
+    width: '70%',
+    borderColor: 'black',
+    borderWidth: 1
+  }
+})
 
 function mapStateToProps(state) {
   return {

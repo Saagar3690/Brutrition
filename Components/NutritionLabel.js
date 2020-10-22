@@ -37,45 +37,44 @@ export default ({
 }) => (
     <View style={[style, {borderColor: 'black', paddingLeft: 5, paddingRight: 5}]}>
         <Text style={[styles.title, styles.hr]}>Nutrition Facts</Text>
-        <Text style={[]}>{servingsPerContainer} servings per container</Text>
         <View style={[styles.lineItem, styles.thickestHr]}>
             <Text style={[styles.leftColumn, styles.bold]}>Serving size</Text>
             <Text style={styles.column}></Text>
-            <Text style={[styles.rightColumn, styles.bold]}>{servingSize}</Text>            
+            <Text style={[styles.rightColumn, styles.bold]}>{servingSize}</Text>
         </View>
         <Text style={[styles.bold, styles.smallText]}>Amount per serving</Text>
         <View style={[styles.lineItem, styles.calories, styles.midHr]}>
             <Text style={[styles.leftColumn, styles.bold, styles.title]}>Calories</Text>
             <Text style={styles.column}></Text>
-            <Text style={[styles.rightColumn, styles.numCalories]}>{calories}</Text>            
+            <Text style={[styles.rightColumn, styles.numCalories]}>{calories}</Text>
         </View>
         <Text style={[styles.bold, styles.smallText, { textAlign: 'right'}]}>% Daily Value*</Text>
-        <LineItem content={['Total Fat', totalFat + 'g', totalFatPercent]} />
-        <LineItem content={['Saturated Fat', saturatedFat + 'g', saturatedFatPercent]} subItem={true} />
-        <LineItem content={['Trans Fat', transFat + 'g', '']} subItem={true} />
-        <LineItem content={['Cholesterol', cholesterol + 'mg', cholesterolPercent]} />
-        <LineItem content={['Sodium', sodium + 'mg', sodiumPercent]} />
-        <LineItem content={['Total Carbohydrate', totalCarbs + 'g', totalCarbsPercent]} />
-        <LineItem content={['Dietary Fiber', dietaryFiber + 'g', dietaryFiberPercent]} subItem={true} />
-        <LineItem content={['Total Sugars', sugars + 'g', '']} subItem={true} />
-        <LineItem content={['Protein', protein + 'g', '']} />
+        <LineItem content={['Total Fat', totalFat, totalFatPercent]} />
+        <LineItem content={['Saturated Fat', saturatedFat, saturatedFatPercent]} subItem={true} />
+        <LineItem content={['Trans Fat', transFat, '']} subItem={true} />
+        <LineItem content={['Cholesterol', cholesterol, cholesterolPercent]} />
+        <LineItem content={['Sodium', sodium, sodiumPercent]} />
+        <LineItem content={['Total Carbohydrate', totalCarbs, totalCarbsPercent]} />
+        <LineItem content={['Dietary Fiber', dietaryFiber, dietaryFiberPercent]} subItem={true} />
+        <LineItem content={['Total Sugars', sugars, '']} subItem={true} />
+        <LineItem content={['Protein', protein, '']} />
         <View style={styles.thickestHr} />
         <LineItem content={['Vitamin A', '', vitaminA]} bold={false} />
         <LineItem content={['Vitamin C', '', vitaminC]} bold={false} />
         <LineItem content={['Calcium', '', calcium]} bold={false} />
         <LineItem content={['Iron', '', iron]} bold={false} />
         <View style={styles.midHr} />
-        <Text style={styles.smallText}>* The % Daily Value (DV) tells 
-            you how much a nutrient in a serving of food contributes 
+        <Text style={styles.smallText}>* The % Daily Value (DV) tells
+            you how much a nutrient in a serving of food contributes
             to a daily diet. 2,000 calories a day is used for general nutrition advice.
-        </Text> 
+        </Text>
     </View>
 )
 
 const styles = StyleSheet.create({
     title: {
         fontSize: 30,
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
         marginTop: -5
     },
     calories: {
