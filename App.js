@@ -3,11 +3,11 @@ import * as React from 'react'
 import Brutrition from './src/Brutrition'
 import Meal from './Objects/Meal'
 
-import {createStore} from 'redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistStore, persistReducer } from 'redux-persist'
-import AsyncStorage from '@react-native-community/async-storage'
-import {Provider} from 'react-redux'
+import { createStore } from 'redux'
+// import { PersistGate } from 'redux-persist/integration/react'
+// import { persistStore, persistReducer } from 'redux-persist'
+import { AsyncStorage } from 'react-native'
+import { Provider } from 'react-redux'
 
 const initialState = {
   menus: {},
@@ -76,23 +76,38 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-}
-const persistedReducer = persistReducer(persistConfig, reducer)
-const store = createStore(persistedReducer)
-const persistor = persistStore(store)
-
-
 export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    let store = createStore(reducer) // default
+    this.subscribe(store)
+    this.state = { store }
+    AsyncStorage.getItem('persistedState')
+      .then(state => JSON.parse(state))
+      .then(state => { 
+        if(!state) return
+        console.log('Retrieved', state)
+        let store = createStore(reducer, state)
+        this.subscribe(store)
+        this.setState({ store })
+      })
+      .catch(error => console.error(error))
+  }
+
+  subscribe(store) {
+    store.subscribe(() => {
+      let state = JSON.stringify(store.getState())
+      console.log('Subscribe', state)
+      AsyncStorage.setItem('persistedState', state)
+        .catch(error => console.error(error))
+    })
+  }
+
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+      <Provider store={this.state.store}>
           <Brutrition />
-        </PersistGate>
       </Provider>
-    );
+    )
   }
 }

@@ -79,7 +79,7 @@ class NutritionInfo extends React.Component {
             <View style={{flexDirection: 'row', paddingTop: 10}}>
               <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
                 <View style={{backgroundColor: 'black', borderRadius: 25, width: 35, height: 35, justifyContent: 'center', alignItems: 'center'}}>
-                  <Ionicons name='ios-flame' size='30' color='red' />
+                  <Ionicons name='ios-flame' size={30} color='red' />
                 </View>
                 <Text style={{fontWeight: 'bold', paddingTop: 5}}>Calories</Text>
                 <Text>{this.roundToTwo(totalCalories)} cal</Text>
