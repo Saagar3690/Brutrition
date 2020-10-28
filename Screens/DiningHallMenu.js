@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Text, View, Button, Image, TouchableWithoutFeedback, ScrollView, TextInput, StyleSheet } from 'react-native'
+import { Text, View, Button, Image, TouchableWithoutFeedback, ScrollView, StyleSheet } from 'react-native'
 
 import Meal from '../Objects/Meal'
 import TopBar from '../Components/TopBar'

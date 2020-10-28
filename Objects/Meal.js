@@ -33,4 +33,10 @@ export default class Meal {
   get fat() {
     return this.foods.reduce((accum, food) => accum + parseInt(food.totalFat.val) * food.quantity, 0)
   }
+
+  static parse(obj) {
+    let meal = Object.assign(new Meal(), obj)
+    meal.timestamp = moment(meal.timestamp)
+    return meal
+  }
 }

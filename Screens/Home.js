@@ -17,7 +17,7 @@ render() {
   if (start < 0)
     start = 0
   let mealSummaries = this.props.meals.slice(start).reverse().map((meal, i) => <MealSummary key={i} data={meal} />)
-  console.log(mealSummaries)
+  //console.log(mealSummaries)
   return (
     <View>
       <TopBar/>

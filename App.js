@@ -71,6 +71,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         meals
       }
+    case 'SET_MEALS':
+      return {
+        ...state,
+        meals: action.payload.slice()
+      }
     default:
       return state
   }
@@ -79,33 +84,36 @@ const reducer = (state = initialState, action) => {
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    let store = createStore(reducer) // default
-    this.subscribe(store)
-    this.state = { store }
-    AsyncStorage.getItem('persistedState')
-      .then(state => JSON.parse(state))
-      .then(state => { 
-        if(!state) return
-        console.log('Retrieved', state)
-        let store = createStore(reducer, state)
-        this.subscribe(store)
-        this.setState({ store })
+    this.store = createStore(reducer) // default
+    this.subscribe(this.store)
+    // this.state = { store }
+    AsyncStorage.getItem('storedMeals')
+      .then(meals => JSON.parse(meals))
+      .then(meals => meals && meals.map(meal => Meal.parse(meal)))
+      .then(meals => { 
+        if(!meals) return
+        console.log('Retrieved', meals)
+        this.store.dispatch({ type: 'SET_MEALS', payload: meals })
+        // let state = Object.assign({ meals }, initialState)
+        // let store = createStore(reducer, state)
+        // this.subscribe(store)
+        // this.setState({ store })
       })
       .catch(error => console.error(error))
   }
 
   subscribe(store) {
     store.subscribe(() => {
-      let state = JSON.stringify(store.getState())
-      console.log('Subscribe', state)
-      AsyncStorage.setItem('persistedState', state)
+      let meals = store.getState().meals
+      meals = JSON.stringify(meals)
+      AsyncStorage.setItem('storedMeals', meals)
         .catch(error => console.error(error))
     })
   }
 
   render() {
     return (
-      <Provider store={this.state.store}>
+      <Provider store={this.store}>
           <Brutrition />
       </Provider>
     )

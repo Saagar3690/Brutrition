@@ -7,7 +7,7 @@ export default class FoodItem extends React.Component {
     this.state = {
       foodName: props.foodName,
       portion: props.portion,
-      value: '',
+      value: 0,
       url: props.url,
     }
   }
@@ -21,6 +21,8 @@ export default class FoodItem extends React.Component {
     return tmpString2
   }
 
+  handleAdd = () => this.handleChangeValue(this.state.value + 1)
+  handleSubtract = () => this.handleChangeValue(Math.max(0, this.state.value - 1))
   handleChangeValue = value => {
     this.setState({ value })
     this.props.quantityHandler(this.props.index, value)
@@ -34,10 +36,18 @@ export default class FoodItem extends React.Component {
           <Text style={{fontSize: 14 /*fontFamily: 'Times New Roman'*/}}>{this.cleanUpFoodName(this.state.foodName)}</Text>
           <Text style={{fontSize: 10}}>Serving Size: {this.state.portion}</Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'flex-start', borderWidth: 2, width: 50, height: 25, borderColor: 'gray', borderRadius: 3, justifyContent: 'center'}}>
-          {<TextInput defaultValue='0' style={{width: 50, textAlign: 'center'}} value={this.state.value.toString()} onChangeText={this.handleChangeValue} keyboardType='numeric' placeholder='0'></TextInput>}
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+          <Button title='-' onPress={this.handleSubtract} style={styles.button}/>
+          <Text style={{ borderColor: 'gray', borderWidth: 2, padding: 6, textAlign: 'center' }} >{this.state.value}</Text>
+          <Button title='+' onPress={this.handleAdd} style={styles.button}/>
         </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 100
+  }
+})

@@ -16,6 +16,7 @@ export default class MealSummary extends React.Component {
 
     render() {
         const { calories, protein, carbs, type } = this.props.data
+        console.log(this.props.data)
         return (
             <View style={{flexDirection: 'column', margin: 20, alignItems: 'center'}}>
                 <CircleImage size={75} path={'../Images/icecream.png'} ></CircleImage>
