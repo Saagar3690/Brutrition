@@ -8,7 +8,7 @@ import Colors from '../Constants/Colors'
 export default function TopBar() {
   return (
     <View style={styles.container}>
-      <Ionicons name='ios-leaf' size='25' color='white' style={styles.icon}/>
+      <Ionicons name='ios-leaf' size={25} color='white' style={styles.icon}/>
       <Text style={styles.title}>Brutrition</Text>
     </View>
   )

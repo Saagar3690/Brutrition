@@ -18,7 +18,8 @@ const initialState = {
   contentToDisplay: false,
   content: '',
   loading: true,
-  meals: []
+  meals: [],
+  user: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -76,6 +77,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         meals: action.payload.slice()
       }
+    case 'REGISTER':
+      return {
+        ...state,
+        user: action.payload
+      }
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.payload
+      }
+
     default:
       return state
   }
@@ -90,7 +102,7 @@ export default class App extends React.Component {
     AsyncStorage.getItem('storedMeals')
       .then(meals => JSON.parse(meals))
       .then(meals => meals && meals.map(meal => Meal.parse(meal)))
-      .then(meals => { 
+      .then(meals => {
         if(!meals) return
         console.log('Retrieved', meals)
         this.store.dispatch({ type: 'SET_MEALS', payload: meals })
@@ -100,6 +112,15 @@ export default class App extends React.Component {
         // this.setState({ store })
       })
       .catch(error => console.error(error))
+
+    AsyncStorage.getItem('user')
+      .then(user => JSON.parse(user))
+      .then(user => {
+        if(!user) return
+        console.log('Retrieved', user)
+        this.store.dispatch({ type: 'SET_USER', payload: user})
+      })
+      .catch(error => console.error(error))
   }
 
   subscribe(store) {
@@ -107,6 +128,11 @@ export default class App extends React.Component {
       let meals = store.getState().meals
       meals = JSON.stringify(meals)
       AsyncStorage.setItem('storedMeals', meals)
+        .catch(error => console.error(error))
+
+      let user = store.getState().user
+      user = JSON.stringify(user)
+      AsyncStorage.setItem('user', user)
         .catch(error => console.error(error))
     })
   }

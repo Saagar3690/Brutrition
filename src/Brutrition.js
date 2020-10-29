@@ -10,6 +10,7 @@ import AddMeal from '../Screens/AddMeal'
 import Diary from '../Screens/Diary'
 import Settings from '../Screens/Settings'
 import LoadingScreen from '../Screens/LoadingScreen'
+import Registration from '../Screens/Registration'
 
 import Colors from '../Constants/Colors'
 
@@ -66,6 +67,8 @@ class Brutrition extends React.Component {
       return (<LoadingScreen/>)
     }
     else {
+      if (Object.keys(this.props.user).length === 0)
+        return <Registration/>
       return (
         <NavigationContainer>
           <Tab.Navigator
@@ -85,7 +88,7 @@ class Brutrition extends React.Component {
                   iconName = 'ios-settings';
                 }
 
-                return <Ionicons name={iconName} size={size} color={color} />;
+                return <Ionicons name={iconName} size={parseInt(size)} color={color} />;
               },
             })}
             tabBarOptions={{
@@ -114,7 +117,8 @@ function mapStateToProps(state) {
     dataSource: state.dataSource,
     contentToDisplay: state.contentToDisplay,
     content: state.content,
-    loading: state.loading
+    loading: state.loading,
+    user: state.user
   }
 }
 
