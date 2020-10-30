@@ -124,7 +124,6 @@ class Home extends React.Component {
   }
 
   render() {
-    this.getData()
     let start = this.props.meals.length - 3
     if (start < 0)
       start = 0
