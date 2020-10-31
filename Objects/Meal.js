@@ -36,7 +36,7 @@ export default class Meal {
 
   static parse(obj) {
     let meal = Object.assign(new Meal(), obj)
-    meal.timestamp = moment(meal.timestamp)
+    meal.timestamp = moment(obj.timestamp)
     return meal
   }
 }
