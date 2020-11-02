@@ -48,7 +48,7 @@ class Home extends React.Component {
       let curDataProteins = this.props.meals[i].protein
       let j = i+1;
       while(j < this.props.meals.length) {
-        if(!this.props.meals[j].timestamp.format("MM/DD") === timestamp)
+        if(this.props.meals[j].timestamp.format("MM/DD") !== timestamp)
           break
         curDataCalories += this.props.meals[j].calories
         curDataCarbs += this.props.meals[j].carbs
@@ -124,10 +124,11 @@ class Home extends React.Component {
   }
 
   render() {
-    let start = this.props.meals.length - 3
+    let mealSummaries = this.props.meals.reverse().filter((meal) => meal.foods.length !== 0).map((meal, i) => <MealSummary key={i} data={meal} />)
+    let start = mealSummaries.length - 3
     if (start < 0)
       start = 0
-    let mealSummaries = this.props.meals.slice(start).reverse().map((meal, i) => <MealSummary key={i} data={meal} />)
+    mealSummaries = mealSummaries.slice(start)
     //console.log(mealSummaries)
     return (
       <View>

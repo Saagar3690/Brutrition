@@ -76,7 +76,7 @@ class DiningHallMenu extends React.Component {
       }
     }
     Promise.all(foodPromises).then(foodsInfo => {
-      let meal = new Meal(foodsInfo.filter(val => val != 0))
+      let meal = new Meal(foodsInfo.filter(val => val != 0), this.state.diningHallName)
       this.props.addMeal(meal)
       foodInfos = foodsInfo.filter(val => val != 0);
       //console.log(foodInfos)

@@ -138,7 +138,7 @@ class Profile extends React.Component {
             <ContributionGraph
               values={this.getContributionDataGraph()}
               endDate={moment().format("YYYY-MM-DD")}
-              numDays={110}
+              numDays={105}
               width={Dimensions.get("window").width*0.9}
               height={220}
               chartConfig={{

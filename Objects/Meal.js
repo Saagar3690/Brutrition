@@ -1,8 +1,9 @@
 import moment from 'moment'
 
 export default class Meal {
-  constructor(foods=[]) {
+  constructor(foods=[], diningHall) {
       this.foods = foods
+      this.diningHall = diningHall
       this.items = {}
       for(let food of foods) {
         //console.log(food)
