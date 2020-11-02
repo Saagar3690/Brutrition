@@ -93,6 +93,8 @@ class Home extends React.Component {
       legend: ["Calories", "Carbs", "Fats", "Proteins"]
     }
 
+    console.log(data)
+
     return data
   }
 
@@ -124,11 +126,11 @@ class Home extends React.Component {
   }
 
   render() {
-    let mealSummaries = this.props.meals.reverse().filter((meal) => meal.foods.length !== 0).map((meal, i) => <MealSummary key={i} data={meal} />)
+    let mealSummaries = this.props.meals.filter((meal) => meal.foods.length !== 0).map((meal, i) => <MealSummary key={i} data={meal} />)
     let start = mealSummaries.length - 3
     if (start < 0)
       start = 0
-    mealSummaries = mealSummaries.slice(start)
+    mealSummaries = mealSummaries.slice(start).reverse()
     //console.log(mealSummaries)
     return (
       <View>

@@ -76,6 +76,18 @@ class Registration extends React.Component {
       Alert.alert('Please enter your protein goal')
       return
     }
+    if(this.state.sex.toLowerCase() !== "m" && this.state.sex.toLowerCase() !== "f") {
+      Alert.alert('Please enter M or F for sex')
+      return
+    }
+    if(this.state.activityLevel.toLowerCase() !== "none" && this.state.activityLevel.toLowerCase() !== "light" && this.state.activityLevel.toLowerCase() !== "moderate" && this.state.activityLevel.toLowerCase() !== "heavy") {
+      Alert.alert('Please enter none, light, moderate, or heavy for activity level')
+      return
+    }
+    if(this.state.weightStatus.toLowerCase() !== "g" && this.state.weightStatus.toLowerCase() !== "l" && this.state.weightStatus.toLowerCase() !== "c") {
+      Alert.alert('Please enter G, L, or C for weight status')
+      return
+    }
 
     let goals = {
       calories: this.state.calories,

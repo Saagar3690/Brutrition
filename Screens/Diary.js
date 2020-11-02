@@ -70,21 +70,21 @@ class Diary extends React.Component {
         <View style={{flexDirection: 'row', paddingBottom: 10, justifyContent: 'center'}}>
           <View style={{flexDirection: 'row', alignItems: 'center', flex: 2}}>
             <View><Progress.Bar progress={caloriesProgress} width={Dimensions.get("window").width*0.3} color="red"/></View>
-            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(caloriesProgress*100).toFixed(1)}%</Text></View>
+            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(caloriesProgress*100).toFixed(0)}%</Text></View>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', flex: 2}}>
             <View><Progress.Bar progress={carbsProgress} width={Dimensions.get("window").width*0.3} color="blue"/></View>
-            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(carbsProgress*100).toFixed(1)}%</Text></View>
+            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(carbsProgress*100).toFixed(0)}%</Text></View>
           </View>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <View style={{flexDirection: 'row', alignItems: 'center', flex: 2}}>
             <View><Progress.Bar progress={fatsProgress} width={Dimensions.get("window").width*0.3} color="green"/></View>
-            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(fatsProgress*100).toFixed(1)}%</Text></View>
+            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(fatsProgress*100).toFixed(0)}%</Text></View>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', flex: 2}}>
             <View><Progress.Bar progress={proteinProgress} width={Dimensions.get("window").width*0.3} color="orange"/></View>
-            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(proteinProgress*100).toFixed(1)}%</Text></View>
+            <View><Text style={{paddingLeft: 10, fontWeight: 'bold'}}>{(proteinProgress*100).toFixed(0)}%</Text></View>
           </View>
         </View>
       </View>
