@@ -104,7 +104,7 @@ export default class App extends React.Component {
       .then(meals => meals && meals.map(meal => Meal.parse(meal)))
       .then(meals => {
         if(!meals) return
-        //console.log('Retrieved', meals)
+        console.log('Retrieved', meals)
         this.store.dispatch({ type: 'SET_MEALS', payload: meals })
         // let state = Object.assign({ meals }, initialState)
         // let store = createStore(reducer, state)
@@ -117,7 +117,7 @@ export default class App extends React.Component {
       .then(user => JSON.parse(user))
       .then(user => {
         if(!user) return
-        //console.log('Retrieved', user)
+        console.log('Retrieved', user)
         this.store.dispatch({ type: 'SET_USER', payload: user})
       })
       .catch(error => console.error(error))

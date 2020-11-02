@@ -33,7 +33,7 @@ class Diary extends React.Component {
                     </View>
                     <View>
                       <Text style={{marginLeft: 40, fontWeight: 'bold', fontSize: 18}}>Qty.</Text>
-                      {Object.keys(meal.items).map(key => <Text style={{marginLeft: 40}}>{meal.items[key]}</Text>)}
+                      {Object.keys(meal.items).map(key => <Text key={key} style={{marginLeft: 40}}>{meal.items[key]}</Text>)}
                     </View>
                   </View>
                 </View>
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    
+
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Diary)

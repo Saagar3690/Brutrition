@@ -16,7 +16,7 @@ export default class Meal {
         this.type = "Lunch"
       else if (hour > 15 && hour <= 17)
         this.type = "Snack"
-      else if (hour > 17 && hour <= 11)
+      else if (hour > 17 && hour <= 23)
         this.type = "Dinner"
       else
         this.type = "Midnight Snack"

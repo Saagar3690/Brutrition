@@ -53,9 +53,9 @@ class Profile extends React.Component {
   }
 
   getDataTable() {
-    let goals = ["Calories", "Fat Calories", "Total Fat", "Saturated Fat", "Trans Fat", "Cholesterol", "Sodium", "Carbohydrates", "Dietary Fiber", "Sugar", "Protein"]
+    let goals = ["Calories", "Total Fat", "Sodium", "Carbohydrates", "Dietary Fiber", "Sugar", "Protein"]
     let values = Object.values(this.props.user.goals)
-    let units = ["cal", "g", "g", "g", "g", "mg", "mg", "g", "g", "g", "g"]
+    let units = ["cal",  "g", , "mg", "g", "g", "g", "g"]
     let dataTableItems = []
     for (let i = 0; i < goals.length; i++) {
       dataTableItems.push(
