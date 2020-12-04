@@ -181,7 +181,8 @@ def cleanUpFoodName(foodName):
 
 def getCalories(caloriesContainer):
   i = 0
-
+  calories = 0
+  fatCalories = 0
   for item in caloriesContainer:
     try:
       int(item)
